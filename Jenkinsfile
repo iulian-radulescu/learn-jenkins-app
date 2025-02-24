@@ -1,9 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        NODE_OPTIONS = "--dns-result-order=ipv4first"
-    }
     stages {
         stage('Build') {
             agent {
