@@ -20,7 +20,6 @@ pipeline {
                     ls -la
                     node --version
                     npm --version
-                    npm config set registry https://registry.npmmirror.com/
                     npm cache clean --force
                     npm install --verbose
                     npm run build
