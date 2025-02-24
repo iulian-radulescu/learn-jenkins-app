@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NODE_OPTIONS="--no-network-family-autoselection"
+        NODE_OPTIONS = "--dns-result-order=ipv4first"
     }
     stages {
         stage('Build') {
