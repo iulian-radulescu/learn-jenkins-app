@@ -2,6 +2,10 @@ pipeline {
     agent any
 
     stages {
+        stage('CleanUp') {
+            cleanWs();
+        }
+
         stage('Build') {
             agent {
                 docker {
@@ -10,8 +14,6 @@ pipeline {
                 }
             }
             steps {
-                cleanWs()
-
                 sh '''
                     ls -la
                     node --version
