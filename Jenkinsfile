@@ -20,7 +20,8 @@ pipeline {
                     ls -la
                     node --version
                     npm --version
-                    npm install
+                    npm install -g npm@8
+                    npm install --verbose
                     npm run build
                     ls -la
                 '''
