@@ -20,7 +20,8 @@ pipeline {
                     ls -la
                     node --version
                     npm --version
-                    npm install -g npm@8
+                    npm config set registry https://registry.npmmirror.com/
+                    npm cache clean --force
                     npm install --verbose
                     npm run build
                     ls -la
