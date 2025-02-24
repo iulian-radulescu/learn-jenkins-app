@@ -1,6 +1,9 @@
 pipeline {
     agent any
 
+    environment {
+        NODE_OPTIONS="--no-network-family-autoselection"
+    }
     stages {
         stage('Build') {
             agent {
