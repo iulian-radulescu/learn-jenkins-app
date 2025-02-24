@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     stages {
-        stage('CleanUp') {
-            steps {
-                cleanWs();
-            }
-        }
+        //stage('CleanUp') {
+        //    steps {
+        //        cleanWs();
+        //    }
+        //}
 
         stage('Build') {
             agent {
