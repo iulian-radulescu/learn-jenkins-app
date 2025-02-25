@@ -1,5 +1,11 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18.18.2-alpine'
+            args '--network=host'
+            reuseNode true
+        }
+    }
 
     stages {
 
@@ -25,13 +31,6 @@ pipeline {
         }
 
         stage ('Test') {
-            agent {
-                docker {
-                    image 'node:18.18.2-alpine'
-                    args '--network=host'
-                    reuseNode true
-                }
-            }
 
             steps {
 
