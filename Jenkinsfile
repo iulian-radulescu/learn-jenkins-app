@@ -2,7 +2,13 @@ pipeline {
     agent any
 
     stages {
-        /*
+
+        stage('Clean') {
+            steps {
+                cleanWs()
+            }
+        }
+
         stage('Build') {
 
             steps {
@@ -16,7 +22,7 @@ pipeline {
                     ls -la
                 '''
             }
-        }*/
+        }
 
         stage ('Test') {
             agent {
@@ -28,7 +34,6 @@ pipeline {
             }
 
             steps {
-                cleanWs()
 
                 sh '''
                     echo "Test Stage"
