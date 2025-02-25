@@ -28,6 +28,8 @@ pipeline {
             }
 
             steps {
+                cleanWs()
+
                 sh '''
                     echo "Test Stage"
                     cat build/index.html
