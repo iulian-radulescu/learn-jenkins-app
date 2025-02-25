@@ -24,10 +24,13 @@ pipeline {
         }
 
         stage ('Test') {
-            sh '''
-                cat build/index.html
-                npm test
-            '''
+
+            steps {
+                sh '''
+                    cat build/index.html
+                    npm test
+                '''
+            }
         }
     }
 }
