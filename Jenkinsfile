@@ -1,21 +1,15 @@
 pipeline {
-    agent any
-
-    stages {
-        //stage('CleanUp') {
-        //    steps {
-        //        cleanWs();
-        //    }
-        //}
-
-        stage('Build') {
-            agent {
-                docker {
-                    image 'node:18.18.2-alpine'
+    agent {
+        docker {
+            image 'node:18.18.2-alpine'
                     args '--network=host'
                     reuseNode true
-                }
-            }
+        }
+    }
+
+    stages {
+        stage('Build') {
+
             steps {
                 sh '''
                     ls -la
@@ -27,6 +21,13 @@ pipeline {
                     ls -la
                 '''
             }
+        }
+
+        stage ('Test') {
+            sh '''
+                cat build/index.html
+                npm test
+            '''
         }
     }
 }
