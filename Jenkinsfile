@@ -42,8 +42,7 @@ pipeline {
                     }
 
                     steps {
-
-                                sh '''
+                        sh '''
                             echo "Test Stage"
                             cat build/index.html
                             npm test
@@ -52,10 +51,9 @@ pipeline {
                 }
 
                  stage ('E2E') {
-
-                            agent {
-                                docker {
-                                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
                             args '--network=host'
                             reuseNode true
                         }
