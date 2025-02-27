@@ -8,5 +8,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="jenkins-mothership" />
+    <orderEntry type="module" module-name="jenkins-inception" />
+    <orderEntry type="module" module-name="jenkins-pipelines" />
   </component>
 </module>

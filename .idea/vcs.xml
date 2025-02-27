@@ -2,5 +2,8 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../../cicd/jenkins-inception" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../../cicd/jenkins-mothership" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../../cicd/jenkins-pipelines" vcs="Git" />
   </component>
 </project>

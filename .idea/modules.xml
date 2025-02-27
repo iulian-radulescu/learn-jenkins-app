@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../../../cicd/jenkins-inception/.idea/jenkins-inception.iml" filepath="$PROJECT_DIR$/../../../../cicd/jenkins-inception/.idea/jenkins-inception.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../cicd/jenkins-mothership/.idea/jenkins-mothership.iml" filepath="$PROJECT_DIR$/../../../../cicd/jenkins-mothership/.idea/jenkins-mothership.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../cicd/jenkins-pipelines/.idea/jenkins-pipelines.iml" filepath="$PROJECT_DIR$/../../../../cicd/jenkins-pipelines/.idea/jenkins-pipelines.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/learn-jenkins-app.iml" filepath="$PROJECT_DIR$/.idea/learn-jenkins-app.iml" />
     </modules>
   </component>
