@@ -24,6 +24,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    echo "Change"
                     ls -la
                     node --version
                     npm --version
