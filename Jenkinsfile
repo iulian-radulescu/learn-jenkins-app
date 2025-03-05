@@ -65,7 +65,7 @@ pipeline {
                     }
 
                     steps {
-                                sh '''
+                        sh '''
                            npm install serve
                            node_modules/.bin/serve -s build &
                            sleep 10
@@ -79,6 +79,25 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+
+         stage('Deploy Staging') {
+            agent {
+                docker {
+                    image 'node:18.18.2-alpine'
+                    args '--network=host'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    npm install netlify-cli
+                    node_modules/.bin/netlify --version
+                    echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
+                    node_modules/.bin/netlify status
+                    node_modules/.bin/netlify deploy --dir=build
+                '''
             }
         }
 
