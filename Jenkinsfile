@@ -7,13 +7,6 @@ pipeline {
     }
 
     stages {
-
-        //stage('Clean') {
-        //    steps {
-        //        cleanWs()
-        //    }
-        //}
-
         stage('Build') {
             agent {
                 docker {
@@ -105,6 +98,33 @@ pipeline {
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --prod
                 '''
+            }
+        }
+
+         stage ('Prod E2E') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    args '--network=host'
+                    reuseNode true
+                }
+            }
+
+            environment {
+                CI_ENVIRONMENT_URL = 'https://rococo-taiyaki-a47e12.netlify.app'
+            }
+
+
+            steps {
+                sh '''
+                   npx playwright test --reporter=html
+                '''
+            }
+
+             post {
+                always {
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'PlayWright PROD Report Html', reportTitles: '', useWrapperFileDirectly: true])
+                }
             }
         }
     }
