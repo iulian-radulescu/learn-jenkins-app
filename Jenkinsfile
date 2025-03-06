@@ -140,7 +140,7 @@ pipeline {
             }
          }
 
-         stage ('Prod E2E') {
+         stage ('Deploy Prod & E2E') {
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
@@ -156,7 +156,12 @@ pipeline {
 
             steps {
                 sh '''
-                   npx playwright test --reporter=html
+                npm install netlify-cli
+                 node_modules/.bin/netlify --version
+                 echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
+                 node_modules/.bin/netlify status
+                 node_modules/.bin/netlify deploy --dir=build --prod
+                 npx playwright test --reporter=html
                 '''
             }
 
