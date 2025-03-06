@@ -102,6 +102,33 @@ pipeline {
             }
         }
 
+         stage ('Stage E2E') {
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            args '--network=host'
+                            reuseNode true
+                        }
+                    }
+
+                    environment {
+                        CI_ENVIRONMENT_URL = 'https://rococo-taiyaki-a47e12.netlify.app'
+                    }
+
+
+                    steps {
+                        sh '''
+                           npx playwright test --reporter=html
+                        '''
+                    }
+
+                     post {
+                        always {
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'PlayWright E2E Staging Report Html', reportTitles: '', useWrapperFileDirectly: true])
+                        }
+                    }
+                }
+
          stage('Approval') {
             steps {
                 timeout(time: 15, unit:'SECONDS') {
@@ -110,7 +137,7 @@ pipeline {
             }
          }
 
-         stage('Deploy Prod') {
+         stage('Deploy Staging') {
             agent {
                 docker {
                     image 'node:18.18.2-alpine'
@@ -120,12 +147,16 @@ pipeline {
             }
             steps {
                 sh '''
-                    npm install netlify-cli
-                    node_modules/.bin/netlify --version
-                    echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
-                    node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --dir=build --prod
+                   npm install netlify-cli node-jq
+                   node_modules/.bin/netlify --version
+                   echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
+                   node_modules/.bin/netlify status
+                   node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json
                 '''
+
+                 script {
+                    env.STAGING_URL=sh(script:"node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json", returnStdout: true)
+                 }
             }
         }
 
@@ -139,7 +170,7 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = 'https://rococo-taiyaki-a47e12.netlify.app'
+                CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
             }
 
 
@@ -151,7 +182,7 @@ pipeline {
 
              post {
                 always {
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'PlayWright PROD Report Html', reportTitles: '', useWrapperFileDirectly: true])
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'PlayWright PROD E2E Report Html', reportTitles: '', useWrapperFileDirectly: true])
                 }
             }
         }
