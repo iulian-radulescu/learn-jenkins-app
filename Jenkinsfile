@@ -92,13 +92,16 @@ pipeline {
             }
             steps {
                 sh '''
-                    npm install netlify-cli node-jq
-                    node_modules/.bin/netlify --version
-                    echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
-                    node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json
-                    node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json
+                   npm install netlify-cli node-jq
+                   node_modules/.bin/netlify --version
+                   echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
+                   node_modules/.bin/netlify status
+                   node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json
                 '''
+
+                 script {
+                    env.STAGING_URL=sh(script:"node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json", returnStdout: true)
+                 }
             }
         }
 
@@ -137,29 +140,6 @@ pipeline {
             }
          }
 
-         stage('Deploy Staging') {
-            agent {
-                docker {
-                    image 'node:18.18.2-alpine'
-                    args '--network=host'
-                    reuseNode true
-                }
-            }
-            steps {
-                sh '''
-                   npm install netlify-cli node-jq
-                   node_modules/.bin/netlify --version
-                   echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
-                   node_modules/.bin/netlify status
-                   node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json
-                '''
-
-                 script {
-                    env.STAGING_URL=sh(script:"node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json", returnStdout: true)
-                 }
-            }
-        }
-
          stage ('Prod E2E') {
             agent {
                 docker {
@@ -170,7 +150,7 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
+                CI_ENVIRONMENT_URL = 'https://rococo-taiyaki-a47e12.netlify.app'
             }
 
 
