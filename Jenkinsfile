@@ -9,11 +9,11 @@ pipeline {
     }
 
    stages {
-        stage('Docker') {
+        stage('AWS') {
             agent {
                 docker {
                     image 'amazon/aws-cli'
-                    args "--entrypoint=''"
+                    args "--entrypoint='' --network=host"
                 }
             }
 
