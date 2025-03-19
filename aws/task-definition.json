@@ -6,7 +6,7 @@
   "containerDefinitions": [
     {
       "name": "learnjenkinsapp",
-      "image": "arn:aws:ecs:eu-central-1:798680949553:task-definition/LearnJenkinsApp-TaskDefinition-Prod:15",
+      "image": "arn:aws:ecs:eu-central-1:798680949553:task-definition/LearnJenkinsApp-TaskDefinition-Prod:17",
       "portMappings": [{
         "name": "nginx-80-tcp",
         "containerPort": 80,
